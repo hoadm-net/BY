@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -98,7 +99,10 @@ else:
             'USER': env('DB_USER'),
             'PASSWORD': env('DB_PWD'),
             'HOST': env('DB_HOST'),
-            'PORT': env('DB_PORT')
+            'PORT': env('DB_PORT'),
+            'OPTIONS': {
+                'init_command': f"ALTER DATABASE {env('DB_NAME')} CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci",
+            },
         }
     }
 
@@ -137,8 +141,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+IMPORT_EXPORT_SKIP_ADMIN_LOG = True
+
